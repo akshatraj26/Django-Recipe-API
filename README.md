@@ -8,7 +8,7 @@ A Django-powered API for managing and sharing recipes. The API includes Swagger 
 - **Permissions**: Role-based access to endpoints (e.g., only authenticated users can create recipes).
 - **CRUD Operations**: Endpoints for creating, reading, updating, and deleting recipes.
 - **Database Support**:
-  - **PostgreSQL**: Used during Dockerizing.
+  - **PostgreSQL**: Used during containerization.
   - **MySQL**: Used during deployment on PythonAnywhere.
 - **Containerized**: Ready-to-deploy using Docker.
 
@@ -17,6 +17,10 @@ A Django-powered API for managing and sharing recipes. The API includes Swagger 
 The API is live at: [https://akshatraj26.pythonanywhere.com/api/docs/](https://akshatraj26.pythonanywhere.com/api/docs/)
 
 Use this link to explore the API documentation and interact with the endpoints directly.
+
+## Repository
+
+Access the code on GitHub: [Django-Recipe-API](https://github.com/akshatraj26/Django-Recipe-API.git)
 
 ## Prerequisites
 - Python 3.8 or higher
@@ -39,11 +43,12 @@ Use this link to explore the API documentation and interact with the endpoints d
 
 3. Install dependencies:
    ```bash
+   cd Django-Recipe-API
    pip install -r requirements.txt
    ```
 
 4. Configure the database in `settings.py`:
-   - Use PostgreSQL for containerized setups.
+   - Use PostgreSQL for dockerizing setups.
    - Use MySQL for deployments like PythonAnywhere.
 
 5. Run database migrations:
@@ -85,7 +90,7 @@ The project includes a `Dockerfile` and `docker-compose.yml` for easy containeri
 
 2. Build the Docker image:
    ```bash
-   docker build -t recipe-api .
+   docker-compose build -t Django-Recipe-API .
    ```
 
 3. Run the container:
@@ -94,6 +99,14 @@ The project includes a `Dockerfile` and `docker-compose.yml` for easy containeri
    ```
 
 4. Access the API at `http://localhost:8000`.
+
+### Run Migrations with Docker Compose
+
+Use the following command to make and apply migrations while using Docker Compose:
+```bash
+docker-compose run --rm app sh -c "python manage.py makemigrations"
+
+```
 
 ### Docker Compose
 
