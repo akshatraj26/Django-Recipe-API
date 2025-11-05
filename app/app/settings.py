@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
-
+ 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
-
+DEBUG = True
 # , "127.0.0.0:8000"
 # "*", 'localhost', '127.0.0.1'
 ALLOWED_HOSTS = []
@@ -89,13 +89,21 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 
 
+# DATABASES = {
+#     'default': {
+#         "ENGINE": 'django.db.backends.postgresql',
+#         "HOST": os.environ.get('DB_HOST'),
+#         "NAME": os.environ.get('DB_NAME'),
+#         "USER": os.environ.get('DB_USER'),
+#         "PASSWORD": os.environ.get("DB_PASS"),
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        "ENGINE": 'django.db.backends.postgresql',
-        "HOST": os.environ.get('DB_HOST'),
-        "NAME": os.environ.get('DB_NAME'),
-        "USER": os.environ.get('DB_USER'),
-        "PASSWORD": os.environ.get("DB_PASS"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
