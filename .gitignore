@@ -5,7 +5,11 @@ __pycache__/
 
 # C extensions
 *.so
-
+.vscode/
+app/core/migrations/
+app/core/tests/__pycache__/
+app/core/migrations/__pycache__/
+app/core/__pycache__/
 .github/
 # Distribution / packaging
 .Python

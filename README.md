@@ -1,149 +1,344 @@
+
 # Recipe API
 
-A Django-powered API for managing and sharing recipes. The API includes Swagger documentation for ease of use, user authentication, and granular permissions to ensure secure access to endpoints. The project is containerized for easy deployment on any platform and is currently live on PythonAnywhere.
+A Django-powered RESTful API for managing and sharing recipes. The API includes Swagger documentation for ease of use, secure authentication, and granular permissions. It’s fully containerized using **Docker and PostgreSQL**, making it easy to deploy on any platform — including **AWS EC2** and **PythonAnywhere**.
 
-## Features
-- **Swagger Integration**: Interactive API documentation at `/api/doc/`.
-- **Authentication**: Supports token-based authentication.
-- **Permissions**: Role-based access to endpoints (e.g., only authenticated users can create recipes).
-- **CRUD Operations**: Endpoints for creating, reading, updating, and deleting recipes.
-- **Database Support**:
-  - **PostgreSQL**: Used during containerization.
-  - **MySQL**: Used during deployment on PythonAnywhere.
-- **Containerized**: Ready-to-deploy using Docker.
+---
 
-## Live API
+## 🚀 Features
 
-The API is live at: [https://akshatraj26.pythonanywhere.com/api/docs/](https://akshatraj26.pythonanywhere.com/api/docs/)
+* **Swagger Integration** – Interactive API documentation at `/api/doc/`.
+* **Authentication** – Token-based authentication using Django REST Framework.
+* **Permissions** – Role-based access; only authenticated users can create, update, or delete recipes.
+* **CRUD Operations** – Endpoints for creating, reading, updating, and deleting recipes.
+* **Database Support**
 
-Use this link to explore the API documentation and interact with the endpoints directly.
+  * **PostgreSQL** – Used during Docker containerization and EC2 deployment.
+  * **MySQL** – Used for deployment on PythonAnywhere.
+* **Containerized** – Fully Dockerized with PostgreSQL service and environment variables.
 
-## Repository
+---
 
-Access the code on GitHub: [Django-Recipe-API](https://github.com/akshatraj26/Django-Recipe-API.git)
+## 🌐 Live API
 
-## Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
-- Docker (if using containerization)
+**Live Demo:** [https://akshatraj26.pythonanywhere.com/api/docs/](https://akshatraj26.pythonanywhere.com/api/docs/)
+You can explore and test all API endpoints directly from the Swagger interface.
 
-## Installation
+**Repository:** [GitHub – Django-Recipe-API](https://github.com/akshatraj26/Django-Recipe-API.git)
 
-1. Clone the repository:
+---
+
+## ⚙️ Prerequisites
+
+* Python 3.8 or higher
+* pip (Python package manager)
+* Docker and Docker Compose
+
+---
+
+## 🧩 Installation (Local Setup)
+
+1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/akshatraj26/Django-Recipe-API.git
    cd Django-Recipe-API
    ```
 
-2. Create and activate a virtual environment:
+2. **Create and activate a virtual environment:**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    ```
 
-3. Install dependencies:
+3. **Install dependencies:**
+
    ```bash
-   cd Django-Recipe-API
    pip install -r requirements.txt
    ```
 
-4. Configure the database in `settings.py`:
-   - Use PostgreSQL for dockerizing setups.
-   - Use MySQL for deployments like PythonAnywhere.
+4. **Configure the database in `settings.py`:**
 
-5. Run database migrations:
+   * Use **PostgreSQL** for Docker/EC2 deployment.
+   * Use **MySQL** for PythonAnywhere deployment.
+
+5. **Run migrations and create a superuser:**
+
    ```bash
    python manage.py migrate
-   ```
-
-6. Create a superuser to access the admin panel:
-   ```bash
    python manage.py createsuperuser
    ```
 
-7. Start the development server:
+6. **Start the development server:**
+
    ```bash
    python manage.py runserver
    ```
 
-## Authentication and Permissions
+---
 
-- **Authentication**:
-  Token-based authentication using Django REST Framework.
-  Obtain a token by logging in at `/api/token/`.
+## 🔐 Authentication & Permissions
 
-- **Permissions**:
-  - Authenticated users can perform all CRUD operations on recipes.
-  - Specific roles or groups may be configured for finer control.
+* **Authentication:**
+  Token-based authentication using DRF. Obtain a token by posting credentials to `/api/token/`.
 
-## Swagger Documentation
+* **Permissions:**
 
-The API documentation is available at `/api/doc/` (live version: [here](https://akshatraj26.pythonanywhere.com/api/docs/)). Use it to interact with the API directly from the browser.
+  * Authenticated users can perform all CRUD operations.
+  * Unauthenticated users have read-only access (if configured).
+  * Extendable role-based groups for admin and contributors.
 
-## Containerization with Docker
+---
 
-The project includes a `Dockerfile` and `docker-compose.yml` for easy containerization.
+## 🧾 Swagger Documentation
 
-### Build and Run the Container
+Swagger UI available at `/api/doc/`
+👉 [Live version here](https://akshatraj26.pythonanywhere.com/api/docs/)
 
-1. Configure the environment variables for PostgreSQL in the `.env` file.
+---
 
-2. Build the Docker image:
-   ```bash
-   docker-compose build -t Django-Recipe-API .
+## 🐳 Containerization with Docker
+
+This project includes a preconfigured `Dockerfile` and `docker-compose.yml` that build and run both the Django app and the PostgreSQL database.
+
+### Build & Run the Containers
+
+1. Create a `.env` file in your project root:
+
+   ```env
+   DB_NAME=recipe
+   DB_USER=postgres
+   DB_PASSWORD=postgres
+   DB_HOST=db
+   DB_PORT=5432
+   DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
    ```
 
-3. Run the container:
+2. **Build the Docker image:**
+
    ```bash
-   docker run -p 8000:8000 recipe-api
+   docker-compose build
    ```
 
-4. Access the API at `http://localhost:8000`.
+3. **Run the containers:**
 
-### Run Migrations with Docker Compose
+   ```bash
+   docker-compose up
+   ```
 
-Use the following command to make and apply migrations while using Docker Compose:
+4. Access the API locally at:
+   [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
+
+---
+
+## 🧪 Testing
+
+The project includes unit tests for API reliability and backend integrity.
+
+### ✅ Tests Completed
+
+* **User Authentication**
+
+  * Token generation and validation.
+  * Rejection of invalid credentials.
+
+* **Recipe CRUD**
+
+  * Recipe creation, update, deletion, and retrieval.
+  * Authenticated vs. unauthenticated user access control.
+
+* **Model Validation**
+
+  * Recipe, Tag, and Ingredient model relationships.
+  * String representation and field constraints.
+
+* **Custom Commands**
+
+  * `wait_for_db` tested for PostgreSQL availability before startup.
+
+* **Health Check**
+
+  * Ensures `/api/health/` endpoint responds successfully.
+
+### 🧭 Future Tests
+
+* Integration and performance tests.
+* Permission and role-based edge cases.
+* Swagger and documentation validation.
+
+### Run Tests
+
+**Using Docker Compose:**
+
 ```bash
-docker-compose run --rm app sh -c "python manage.py makemigrations"
-
+docker-compose run --rm app sh -c "python manage.py test"
 ```
 
-### Docker Compose
+**Using Local Environment:**
 
-If you're deploying with Docker Compose, use the `docker-compose.yml` file:
 ```bash
-docker-compose up
+python manage.py test
 ```
 
-This will build and start the container along with PostgreSQL as the database.
+---
 
-## Deployment on PythonAnywhere
+## 🧰 Useful Docker Commands
 
-1. **Database**:
-   - The project uses MySQL on PythonAnywhere. Update the `DATABASES` settings in `settings.py` accordingly.
+| **Command**                                                           | **Description**                           |
+| --------------------------------------------------------------------- | ----------------------------------------- |
+| `docker-compose run --rm app sh -c "python manage.py makemigrations"` | Create migrations.                        |
+| `docker-compose run --rm app sh -c "python manage.py migrate"`        | Apply migrations.                         |
+| `docker-compose run --rm app sh -c "python manage.py test"`           | Run test suite.                           |
+| `docker-compose down`                                                 | Stop and remove running containers.       |
+| `docker-compose down --volumes`                                       | Remove containers and volumes (reset DB). |
+| `docker-compose -f docker-compose-deploy.yml up -d`                   | Start app in detached deployment mode.    |
 
-2. **Static Files**:
-   Collect static files before deployment:
+---
+
+## ☁️ Deployment
+
+### 🟣 Deployment on **PythonAnywhere**
+
+1. **Database:**
+   Update `DATABASES` in `settings.py` to use MySQL.
+
+2. **Collect Static Files:**
+
    ```bash
    python manage.py collectstatic
    ```
 
-3. **Environment Variables**:
-   Store sensitive information (e.g., database credentials, `SECRET_KEY`) in a secure way, like in a `.env` file or directly in PythonAnywhere's settings.
+3. **Environment Variables:**
+   Store secrets securely in `.env` or PythonAnywhere’s web settings.
 
-4. **Deployment**:
-   Upload the project to PythonAnywhere and follow the [PythonAnywhere Deployment Steps](https://akshatraj26.pythonanywhere.com/api/docs/).
+4. **Deploy:**
+   Upload your code and follow PythonAnywhere’s deployment instructions.
 
-## Usage
+---
 
-Once deployed, the API is accessible at:
-- Recipes Endpoint: `/api/recipes/`
-- Token Endpoint: `/api/token/`
-- Swagger Documentation: `/api/doc/`
+### 🟢 Deployment on **AWS EC2 with Docker & PostgreSQL**
 
-For the live version:
-- API Documentation: [https://akshatraj26.pythonanywhere.com/api/docs/](https://akshatraj26.pythonanywhere.com/api/docs/)
+You can deploy the Django Recipe API on your **EC2 instance** using Docker Compose (with PostgreSQL running as a container).
 
-## License
+1. **SSH into your EC2 instance:**
+
+   ```bash
+   ssh -i your-key.pem ec2-user@your-ec2-public-dns
+   ```
+
+2. **Install Docker & Docker Compose:**
+
+   ```bash
+   sudo apt update
+   sudo apt install docker.io docker-compose -y
+   sudo systemctl enable docker
+   ```
+
+3. **Clone your repository:**
+
+   ```bash
+   git clone https://github.com/akshatraj26/Django-Recipe-API.git
+   cd Django-Recipe-API
+   ```
+
+4. **Edit `.env` file:**
+   Update `DJANGO_ALLOWED_HOSTS` with your EC2 public DNS (replace the below with yours):
+
+   ```.env
+   DJANGO_ALLOWED_HOSTS=your public dns from network section of ec2 instance
+   ```
+
+5. **Deploy using Docker Compose:**
+
+   ```bash
+   docker-compose -f docker-compose-deploy.yml up -d
+   ```
+
+6. **Verify containers:**
+
+   ```bash
+   docker ps
+   ```
+
+7. **Access the app:**
+   Visit:
+
+   ```
+   http://<your-ec2-public-dns>:8000/api/docs/
+   ```
+
+8. **Optional Cleanup Commands:**
+
+   ```bash
+   docker-compose down
+   docker-compose down --volumes
+   ```
+
+---
+
+## 📂 Project Structure
+
+```
+Django-Recipe-API/
+│
+├── app/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── core/
+│   ├── models.py
+│   ├── admin.py
+│   ├── management/
+│   │   └── commands/
+│   │       └── wait_for_db.py
+│   └── tests/
+│       ├── test_models.py
+│       ├── test_commands.py
+│       ├── test_admin.py
+│       └── test_health_check.py
+│
+├── recipe/
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   └── tests/
+│       ├── test_recipe_api.py
+│       ├── test_tags_api.py
+│       └── test_ingredients_api.py
+│
+├── user/
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   └── tests/
+│       └── test_user_api.py
+│
+├── Dockerfile
+├── docker-compose.yml
+├── docker-compose-deploy.yml
+├── requirements.txt
+├── manage.py
+└── README.md
+```
+
+---
+
+## 🧭 Usage
+
+After setup or deployment, key endpoints include:
+
+* `/api/recipes/` – CRUD for recipes
+* `/api/token/` – Token authentication
+* `/api/doc/` – Swagger documentation
+
+**Live API:** [https://akshatraj26.pythonanywhere.com/api/docs/](https://akshatraj26.pythonanywhere.com/api/docs/)
+
+---
+
+## 📜 License
 
 This project is licensed under the [MIT License](LICENSE).
+

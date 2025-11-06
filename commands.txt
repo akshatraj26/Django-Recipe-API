@@ -1,0 +1,11 @@
+docker-compose run --rm app sh -c "python m
+anage.py test"
+
+
+docker-compose down
+
+
+docker-compose down --volumes
+
+docker-compose -f docker-compose-deploy.yml up -d
+
